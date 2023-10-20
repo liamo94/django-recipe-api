@@ -108,15 +108,15 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateUserApuTest(TestCase):
+class PrivateUserApiTest(TestCase):
     """Test API requests that require authentication"""
 
     def setUp(self):
-        self.user = create_user(
+        self.user = get_user_model().objects.create_user(
             email="test@example.com", password="testpass123", name="Test Name"
         )
         self.client = APIClient()
-        self.client.force_authenticate(user=self.user)
+        self.client.force_authenticate(self.user)
 
     def test_retrieve_profile_success(self):
         """Test retrieving profile for logged in user"""
